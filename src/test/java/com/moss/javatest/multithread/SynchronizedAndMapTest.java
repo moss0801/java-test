@@ -216,9 +216,33 @@ public class SynchronizedAndMapTest {
         printAndAssertion(hashMap);
     }
 
+    @Test
+    public void joinTest() throws InterruptedException {
+        // Arrange
+        StopWatch stopWatch = new StopWatch();
+        stopWatch.start();
+        int delay=  1000;
+        var thread = new Thread(() -> {
+            try {
+                Thread.sleep(delay);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        });
+
+        // Act
+        thread.run();
+        thread.join();
+
+        // Assert
+        stopWatch.stop();
+        Assertions.assertTrue(stopWatch.getTotalTimeMillis() > delay);
+
+    }
 
 
-    public static class Worker implements Runnable { //쓰레드
+
+    public static class Worker implements Runnable {
         private CountDownLatch countDownLatch;
         private int index;
 

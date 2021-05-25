@@ -2,6 +2,7 @@ plugins {
 	id 'org.springframework.boot' version '2.4.5'
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 	id 'java'
+	id 'groovy'
 }
 
 group = 'com.moss'
@@ -12,12 +13,15 @@ repositories {
 	mavenCentral()
 }
 
+
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 
 	implementation 'com.querydsl:querydsl-jpa'
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.spockframework:spock-spring:2.0-groovy-2.5'
+
 }
 
 test {
