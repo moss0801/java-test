@@ -8,6 +8,24 @@ import java.time.ZoneId
 
 class DtoAssemblerTest extends Specification {
 
+    def "convert object to object"() {
+        given:
+        var a = 1;
+        var b = "b"
+        var dto = new SimpleDto();
+        dto.setA(a)
+        dto.setB(b)
+
+        var model = new SimpleModel();
+        when:
+        DtoAssembler.map(dto, model)
+
+        then:
+        a == model.getA()
+        b == model.getB()
+    }
+
+
     def "to 테스트"() {
         given:
         var model = new SimpleModel()
@@ -41,8 +59,9 @@ class DtoAssemblerTest extends Specification {
 
 
         when:
-        SimpleDto dto = DtoAssembler.to(model, SimpleDto, (d, m) -> {
+        SimpleDto dto = DtoAssembler.to(model, SimpleDto, (m, d) -> {
             d.setEpochSecond(m.getTime().toEpochSecond())
+            return d
         })
 
         then:
@@ -114,8 +133,9 @@ class DtoAssemblerTest extends Specification {
         models.add(model2);
 
         when:
-        List<SimpleDto> dtos = DtoAssembler.to(models, SimpleDto, (d, m) -> {
+        List<SimpleDto> dtos = DtoAssembler.to(models, SimpleDto, (m, d) -> {
             d.setEpochSecond(m.getTime().toEpochSecond())
+            return d
         })
 
         then:
@@ -161,9 +181,10 @@ class DtoAssemblerTest extends Specification {
         dto.setEpochSecond(now.toEpochSecond())
 
         when:
-        SimpleModel model = DtoAssembler.from(dto, SimpleModel, (m, d) -> {
+        SimpleModel model = DtoAssembler.from(dto, SimpleModel, (d, m) -> {
             var time = OffsetDateTime.ofInstant(Instant.ofEpochSecond(d.getEpochSecond()), ZoneId.systemDefault())
             m.setTime(time)
+            return m
         })
 
         then:
@@ -233,9 +254,10 @@ class DtoAssemblerTest extends Specification {
         dtos.add(dto2);
 
         when:
-        List<SimpleModel> models = DtoAssembler.from(dtos, SimpleModel, (m, d) -> {
+        List<SimpleModel> models = DtoAssembler.from(dtos, SimpleModel, (d, m) -> {
             var time = OffsetDateTime.ofInstant(Instant.ofEpochSecond(d.getEpochSecond()), ZoneId.systemDefault())
             m.setTime(time)
+            return m
         })
 
         then:

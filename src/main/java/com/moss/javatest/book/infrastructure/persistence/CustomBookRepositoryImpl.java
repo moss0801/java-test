@@ -9,7 +9,7 @@ public class CustomBookRepositoryImpl implements CustomBookRepository {
     /**
      * 새 Id 생성
      */
-    private BookId newIdentitiy() {
+    public BookId newIdentity() {
         return BookId.of(UUID.randomUUID().toString());
     }
 }

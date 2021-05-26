@@ -20,6 +20,7 @@ spring:
     console:
       enabled: true
   jpa:
+    generate-ddl: true
     open-in-view: false
     show-sql: true
     properties:

@@ -6,18 +6,15 @@ import lombok.Data;
 import java.time.OffsetDateTime;
 
 /**
- * Book Dto
+ * 책 추가 Command
  */
 @Data
-public class BookDto {
-    // Id
-    private String id;
-
-    // 카테고리Id
-    private Integer categoryId;
-
+public class AddBookCommand {
     // 책유형
     private BookType bookType;
+
+    // 분류Id
+    private Integer categoryId;
 
     // 제목
     private String title;
