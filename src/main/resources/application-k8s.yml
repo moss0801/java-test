@@ -1,0 +1,11 @@
+
+server:
+  shutdown: graceful
+
+management:
+  server.port: 8089
+  health:
+    linvessstate.enabled: true
+    readinessstate.enable: true
+  endpoint.health.probes.enabled: true
+

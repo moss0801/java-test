@@ -1,6 +1,7 @@
 package com.moss.javatest.multithread;
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.util.StopWatch;
 
@@ -60,7 +61,7 @@ public class SynchronizedAndMapTest {
         }
     }
 
-    private static final Integer TestSize = 1000;
+    private static final Integer TestSize = 100;
     private static final int DivideBy = 10;
     private static final Integer MaxThreadPoolSize = Runtime.getRuntime().availableProcessors();
 
@@ -120,6 +121,7 @@ public class SynchronizedAndMapTest {
         }
     }
 
+
     @Test
     public void hashMapWithSynchronized() throws InterruptedException {
         // Arrange
@@ -153,11 +155,11 @@ public class SynchronizedAndMapTest {
             try {
                 System.out.println("index: " + index);
                 synchronized (hashMap) {
-                    Thread.sleep(10);
+                    Thread.sleep(1);
                     int i = index % 10;
                     hashMap.computeIfAbsent(String.valueOf(i), str -> new LongAdder()).increment();
-                    Thread.sleep(20);
-                    Thread.sleep(20);
+                    Thread.sleep(2);
+                    Thread.sleep(2);
                 }
             } catch (InterruptedException e) {
                 e.printStackTrace();

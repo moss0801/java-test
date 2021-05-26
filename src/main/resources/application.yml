@@ -1,0 +1,31 @@
+
+server:
+  compression:
+    enabled: true
+
+spring:
+  lifecycle:
+    timeout-per-shutdown-phase: 30s
+  session:
+    store-type: none
+  web:
+    resources:
+      static-locations: classpath:/static/
+      cache:
+        cachecontrol:
+          max-age: 365d
+  messages:
+    basename: messages
+  h2:
+    console:
+      enabled: true
+  jpa:
+    open-in-view: false
+    show-sql: true
+    properties:
+      hibernate.dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+      hibernate.dialect.storage_engine: innodb
+
+  datasource:
+    hikari:
+      jdbc-url: jdbc:h2:mem://localhost/~/testdb;MODE=MYSQL
