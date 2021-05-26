@@ -1,7 +1,6 @@
 package com.moss.javatest.book.userinterface;
 
-import com.moss.javatest.book.dto.AddBookCommand;
-import com.moss.javatest.book.dto.BookDto;
+import com.moss.javatest.book.dto.book.*;
 import com.moss.javatest.book.service.BookService;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,8 +23,8 @@ public class BookController {
      * @param command 추가 Command
      */
     @PostMapping
-    public void add(@RequestBody AddBookCommand command) {
-        service.add(command);
+    public AddBookResult add(@RequestBody AddBookCommand command) {
+        return service.add(command);
     }
 
     /**
@@ -43,7 +42,27 @@ public class BookController {
      * @return 책 목록
      */
     @GetMapping
-    public List<BookDto> list() {
-        return service.list();
+    public List<BookDto> list(@ModelAttribute BooksQuery query) {
+        return service.list(query);
+    }
+
+    /**
+     * 수정
+     * @param id 책 Id
+     * @param command 수정 Command
+     */
+    @PutMapping("{id}")
+    public void update(@PathVariable String id, @RequestBody UpdateBookCommand command) {
+        command.setId(id);
+        service.update(command);
+    }
+
+    /**
+     * 삭제
+     * @param id 책 Id
+     */
+    @DeleteMapping("{id}")
+    public void delete(@PathVariable String id) {
+        service.delete(id);
     }
 }

@@ -5,9 +5,7 @@ import com.moss.javatest.book.domain.model.Book;
 import com.moss.javatest.book.domain.model.BookId;
 import com.moss.javatest.book.domain.model.CategoryId;
 import com.moss.javatest.book.domain.repository.BookRepository;
-import com.moss.javatest.book.dto.AddBookCommand;
-import com.moss.javatest.book.dto.BookDto;
-import com.moss.javatest.book.dto.UpdateBookCommand;
+import com.moss.javatest.book.dto.book.*;
 import com.moss.javatest.shared.dto.DtoAssembler;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,9 +18,11 @@ import java.util.List;
 @Service
 public class BookService {
     private final BookRepository repository;
+    private final CategoryService categoryService;
 
-    public BookService(BookRepository repository) {
+    public BookService(BookRepository repository, CategoryService categoryService) {
         this.repository = repository;
+        this.categoryService = categoryService;
     }
 
     /**
@@ -30,15 +30,27 @@ public class BookService {
      * @param command 책 추가 Command
      */
     @Transactional
-    public void add(AddBookCommand command) {
+    public AddBookResult add(AddBookCommand command) {
+        // 분류 존재 확인
+        if (!categoryService.exist(command.getCategoryId())) {
+            throw new RuntimeException("category is not exist.");
+        }
+        
+        // 생성
         BookId id = repository.newIdentity();
         var book = Book.builder().id(id).build();
         DtoAssembler.map(command, book, (dto, model) -> {
-            model.setCategoryId(CategoryId.of(dto.getCategoryId()));
+            model.setCategoryId(dto.getCategoryId());
             return model;
         });
 
+        // 저장
         repository.save(book);
+
+        // 결과
+        AddBookResult result = new AddBookResult();
+        result.setId(book.getId().getId());
+        return result;
     }
 
     /**
@@ -56,13 +68,15 @@ public class BookService {
         return DtoAssembler.to(bookOptional.get(), BookDto.class);
     }
 
+
+
     /**
      * 책 목록 조회
      * @return 책 Dto 목록
      */
     @Transactional(readOnly = true)
-    public List<BookDto> list() {
-        return DtoAssembler.to(repository.findAll(), BookDto.class);
+    public List<BookDto> list(BooksQuery query) {
+        return DtoAssembler.to(repository.findAll(query), BookDto.class);
     }
 
     /**
@@ -76,6 +90,11 @@ public class BookService {
         var bookOptional = repository.findById(bookId);
         if (bookOptional.isEmpty()) {
             throw new RuntimeException("book is not exist.");
+        }
+
+        // 분류 존재 확인
+        if (!categoryService.exist(command.getCategoryId())) {
+            throw new RuntimeException("category is not exist.");
         }
 
         // 수정

@@ -3,7 +3,9 @@ package com.moss.javatest.book.domain.model;
 import com.moss.javatest.book.domain.code.BookType;
 import lombok.*;
 
-import javax.persistence.*;
+import javax.persistence.EmbeddedId;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.time.OffsetDateTime;
 
 /**
@@ -27,12 +29,13 @@ public class Book {
 
     // 분류 Id
     @Setter
-    //----
-    @Embedded
-    @AttributeOverrides({
-            @AttributeOverride(name="id", column=@Column(name = "CATEGORY_ID"))
-    })
-    private CategoryId categoryId;
+//    //----
+//    @Embedded
+//    @AttributeOverrides({
+//            @AttributeOverride(name="id", column=@Column(name = "CATEGORY_ID"))
+//    })
+//    private CategoryId categoryId;
+    private Integer categoryId;
 
     // 책유형
     @Setter
@@ -54,6 +57,16 @@ public class Book {
     @Setter
     private String isbn13;
 
+    /**
+     * 책 생성
+     * @param id BookId
+     * @param bookType 책 유형
+     * @param title 제목
+     * @param author 작가
+     * @param published 출간일
+     * @param isbn13 ISBN13
+     * @return 책
+     */
     public static Book of(BookId id, BookType bookType, String title, String author, OffsetDateTime published, String isbn13) {
         return Book.builder()
                 .id(id)

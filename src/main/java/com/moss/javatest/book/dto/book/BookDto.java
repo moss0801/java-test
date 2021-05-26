@@ -1,4 +1,4 @@
-package com.moss.javatest.book.dto;
+package com.moss.javatest.book.dto.book;
 
 import com.moss.javatest.book.domain.code.BookType;
 import lombok.Data;
@@ -6,15 +6,18 @@ import lombok.Data;
 import java.time.OffsetDateTime;
 
 /**
- * 책 추가 Command
+ * Book Dto
  */
 @Data
-public class AddBookCommand {
+public class BookDto {
+    // Id
+    private String id;
+
+    // 카테고리Id
+    private Integer categoryId;
+
     // 책유형
     private BookType bookType;
-
-    // 분류Id
-    private Integer categoryId;
 
     // 제목
     private String title;

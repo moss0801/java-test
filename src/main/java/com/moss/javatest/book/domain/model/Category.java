@@ -25,6 +25,7 @@ public class Category {
     private Integer id;
 
     // 이름
+    @Setter
     private String name;
 
     public static class Constraint {
