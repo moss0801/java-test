@@ -3,6 +3,7 @@ package com.moss.javatest.book.domain.model;
 import com.moss.javatest.book.domain.code.BookType;
 import lombok.*;
 
+import javax.persistence.Embedded;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -26,6 +27,10 @@ public class Book {
     @EmbeddedId
     @EqualsAndHashCode.Include
     private BookId id;
+
+    // 카테고리
+    @Embedded
+    private CategoryId categoryId;
 
     // 책유형
     private BookType bookType;
