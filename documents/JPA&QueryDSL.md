@@ -53,6 +53,14 @@ spring:
     show-sql: false
 ```
 
+# Entitiy & ValueObject
+
+## ValueObjectIdEntity
+Id를 ValueObject로 사용하는 Entity의  경우 ValueObjectIdEntity를 상속받는다.
+
+spring-data-jpa는 save시 Persistable.isNew() 값이 true인 경우 바로 INSERT 문을 수행하나,
+false인 경우 ID로 존재여부를 확인 후 INSERT 를 수행하기에 성능 저하를 방지하기 위함이다.
+
 # SharedQuerydslRepositorySupport
 QueryDSL 코드 작성간 필요한 코드 모음
 
@@ -86,6 +94,8 @@ QueryDSL의 다양한 Expression 조합을 함수형으로 작성하기 위한 H
         return list;
     }
 ```
+
+예제 추가 필요
 
 # Reference
 [[gradle] 그레이들 Annotation processor와 Querydsl](http://honeymon.io/tech/2020/07/09/gradle-annotation-processor-with-querydsl.html)
