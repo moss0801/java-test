@@ -138,7 +138,7 @@ public class SharedQuerydslRepositorySupport extends QuerydslRepositorySupport {
      * @param <T> 반환값 Type
      * @return JPQLQuery
      */
-    protected <T> JPQLQuery<T> selectDto(Class<? extends T> type, Expression<?>... expressions) {
+    protected <T> JPQLQuery<T> select(Class<? extends T> type, Expression<?>... expressions) {
         return getQuerydsl().createQuery().select(Projections.fields(type, expressions));
     }
 

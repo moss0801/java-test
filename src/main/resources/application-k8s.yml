@@ -9,3 +9,9 @@ management:
     readinessstate.enable: true
   endpoint.health.probes.enabled: true
 
+spring:
+  messages:
+    basename: messages
+  jpa:
+    generate-ddl: false
+    show-sql: false
