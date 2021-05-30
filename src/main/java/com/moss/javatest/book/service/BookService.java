@@ -36,13 +36,17 @@ public class BookService {
             throw new RuntimeException("category is not exist.");
         }
         
-        // 생성
+        // 생성 (생성을 Service에서 하는 것이 맞는가? Dto(Command)에서 하는 것이 맞는가?)
         BookId id = repository.newIdentity();
-        var book = Book.builder().id(id).build();
-        DtoAssembler.map(command, book, (dto, model) -> {
-            model.setCategoryId(dto.getCategoryId());
-            return model;
-        });
+        var book = Book.builder()
+                .id(id)
+                .bookType(command.getBookType())
+                .title(command.getTitle())
+                .author(command.getAuthor())
+                .categoryId(command.getCategoryId())
+                .published(command.getPublished())
+                .isbn13(command.getIsbn13())
+                .build();
 
         // 저장
         repository.save(book);
