@@ -23,7 +23,7 @@ public class CustomBookRepositoryImpl extends SharedQuerydslRepositorySupport im
         // https://github.com/querydsl/querydsl/issues/1214
         var newExpressions = Arrays.stream(getExpressions()).map(expression -> {
             if (expression.toString().equals("book.categoryId.id")) {
-                return as(expression, "category_id");
+                return as(expression, "categoryId");
             }
             return expression;
         }).toArray(Expression[]::new);

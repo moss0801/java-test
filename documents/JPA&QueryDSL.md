@@ -111,7 +111,7 @@ CategoryId.id -> CategoryId.categoryId
 ## Expresion을 Projections.as(expression, alias)로 변경
 ```
 // book.categoryId.id 가 'id=' 가 아닌 'category_id='로 조건이 걸리도록 수정  
-var newExpression = Projections.as(expression, "category_id"
+var newExpression = Projections.as(expression, "categoryId");
 ```
 
 ### SharedQuerydslRepositorySupport와 함께 사용한 경우 생성자에서 변경
@@ -125,7 +125,7 @@ public class CustomBookRepositoryImpl extends SharedQuerydslRepositorySupport im
         // https://github.com/querydsl/querydsl/issues/1214
         var newExpressions = Arrays.stream(getExpressions()).map(expression -> {
             if (expression.toString().equals("book.categoryId.id")) {
-                return as(expression, "category_id");
+                return as(expression, "categoryId");
             }
             return expression;
         }).toArray(Expression[]::new);
