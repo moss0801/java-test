@@ -1,12 +1,11 @@
 package com.moss.javatest.book.domain.model;
 
 import com.moss.javatest.book.domain.code.BookType;
+import com.querydsl.core.annotations.QueryEmbedded;
 import lombok.*;
 import org.springframework.util.Assert;
 
-import javax.persistence.EmbeddedId;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.OffsetDateTime;
 
 /**
@@ -28,13 +27,12 @@ public class Book {
 
     // 분류 Id
     @Setter
-//    //----
-//    @Embedded
-//    @AttributeOverrides({
-//            @AttributeOverride(name="id", column=@Column(name = "CATEGORY_ID"))
-//    })
-//    private CategoryId categoryId;
-    private Integer categoryId;
+    //----
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name="id", column=@Column(name="category_id"))
+    })
+    private CategoryId categoryId;
 
     // 책유형
     @Setter
@@ -57,7 +55,7 @@ public class Book {
     private String isbn13;
 
     @Builder
-    private Book(BookId id, Integer categoryId, BookType bookType, String title, String author, OffsetDateTime published, String isbn13) {
+    private Book(BookId id, CategoryId categoryId, BookType bookType, String title, String author, OffsetDateTime published, String isbn13) {
         Assert.notNull(id, "bookId can not be null.");
         this.id = id;
         this.categoryId = categoryId;

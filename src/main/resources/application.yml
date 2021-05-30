@@ -26,6 +26,9 @@ spring:
     properties:
       hibernate.dialect: org.hibernate.dialect.MySQL5InnoDBDialect
       hibernate.dialect.storage_engine: innodb
+      hibernate.format_sql: true
+
+
 
   datasource:
     hikari:

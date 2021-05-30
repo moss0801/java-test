@@ -97,6 +97,45 @@ QueryDSL의 다양한 Expression 조합을 함수형으로 작성하기 위한 H
 
 예제 추가 필요
 
+# ValueObjectId & QueryDSL
+ValueObjectId를 property로 사용하는 경우
+QueryDSL로 쿼리시 id proertyName이 2개 이상이여서 충돌이 발생한다.
+'Multiple entries with same key jpa' 에러 발생
+
+생각해 볼 수 있는 해결책
+
+## propertyName에 항상 Entity 명을 prefix로 사용
+BookId.id -> BookId.booId  
+CategoryId.id -> CategoryId.categoryId
+
+## Expresion을 Projections.as(expression, alias)로 변경
+```
+// book.categoryId.id 가 'id=' 가 아닌 'category_id='로 조건이 걸리도록 수정  
+var newExpression = Projections.as(expression, "category_id"
+```
+
+### SharedQuerydslRepositorySupport와 함께 사용한 경우 생성자에서 변경
+아래 방법보다 좀 더 깔끔하게 해결할 방법이 없을까?
+```
+public class CustomBookRepositoryImpl extends SharedQuerydslRepositorySupport implements CustomBookRepository {
+    public CustomBookRepositoryImpl() {
+        super(Book.class, QBook.class, QBook.book);
+
+        final var book = QBook.book;
+        // https://github.com/querydsl/querydsl/issues/1214
+        var newExpressions = Arrays.stream(getExpressions()).map(expression -> {
+            if (expression.toString().equals("book.categoryId.id")) {
+                return as(expression, "category_id");
+            }
+            return expression;
+        }).toArray(Expression[]::new);
+        setExpressions(newExpressions);
+    }
+    ...
+}
+```
+
+
 # Reference
 [[gradle] 그레이들 Annotation processor와 Querydsl](http://honeymon.io/tech/2020/07/09/gradle-annotation-processor-with-querydsl.html)
 

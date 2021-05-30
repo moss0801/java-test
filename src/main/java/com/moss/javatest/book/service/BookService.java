@@ -43,7 +43,7 @@ public class BookService {
                 .bookType(command.getBookType())
                 .title(command.getTitle())
                 .author(command.getAuthor())
-                .categoryId(command.getCategoryId())
+                .categoryId(CategoryId.of(command.getCategoryId()))
                 .published(command.getPublished())
                 .isbn13(command.getIsbn13())
                 .build();

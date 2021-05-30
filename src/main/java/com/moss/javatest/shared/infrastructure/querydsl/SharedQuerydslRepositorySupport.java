@@ -28,7 +28,7 @@ public class SharedQuerydslRepositorySupport extends QuerydslRepositorySupport {
 
     private Expression[] expressions;
 
-    private void setExpressions(Expression[] expressions) {
+    protected void setExpressions(Expression[] expressions) {
         this.expressions = expressions;
     }
 
