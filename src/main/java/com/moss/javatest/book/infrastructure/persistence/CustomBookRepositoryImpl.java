@@ -21,6 +21,7 @@ public class CustomBookRepositoryImpl extends SharedQuerydslRepositorySupport im
 
         final var book = QBook.book;
         // https://github.com/querydsl/querydsl/issues/1214
+        // 더 좋은 방법을 찾고 싶다.
         var newExpressions = Arrays.stream(getExpressions()).map(expression -> {
             if (expression.toString().equals("book.categoryId.id")) {
                 return as(expression, "categoryId");
